@@ -8,20 +8,9 @@ process.on("uncaughtException", (err) => {
   console.log(`Shutting down the server due to Uncaught Exception`);
   process.exit(1);
 });
-
-const allowedOrigins = ["https://ecommerce-eight-iota-65.vercel.app/",  ];
-
-// Configure CORS with allowed origins
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Check if the origin is allowed
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: "*", // Allow requests from any origin
   })
 );
 
