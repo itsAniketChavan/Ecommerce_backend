@@ -1,13 +1,29 @@
 const app = require("./app");
 const cloudinary = require("cloudinary");
 const connectDatabase = require("./config/database");
-
+const cors = require("cors");
 // Handling Uncaught Exception
 process.on("uncaughtException", (err) => {
   console.log(`Error: ${err.message}`);
   console.log(`Shutting down the server due to Uncaught Exception`);
   process.exit(1);
 });
+
+const allowedOrigins = ["https://ecommerce-eight-iota-65.vercel.app/",  ];
+
+// Configure CORS with allowed origins
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Check if the origin is allowed
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
 
 // Config
 if (process.env.NODE_ENV !== "PRODUCTION") {
